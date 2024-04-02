@@ -1,15 +1,17 @@
-package dev.wiskiw.sunnysideapp
+package dev.wiskiw.sunnysideapp.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import dev.wiskiw.sunnysideapp.presentation.navigation.LaunchNavGraph
 import dev.wiskiw.sunnysideapp.presentation.navigation.Route
 import dev.wiskiw.sunnysideapp.ui.theme.SunnySideAppTheme
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class SunnySideActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
