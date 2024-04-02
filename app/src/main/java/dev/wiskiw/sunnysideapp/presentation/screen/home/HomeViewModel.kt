@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.wiskiw.sunnysideapp.common.model.LatLng
+import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.sunnysideapp.domain.usecase.AverageTemperatureUseCase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

@@ -1,6 +1,6 @@
 package dev.wiskiw.sunnysideapp.data.remote
 
-import dev.wiskiw.sunnysideapp.common.model.LatLng
+import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.sunnysideapp.data.remote.model.reponse.OpenMeteoForecaseResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

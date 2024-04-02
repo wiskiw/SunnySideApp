@@ -1,4 +1,4 @@
-package dev.wiskiw.sunnysideapp.common.model
+package dev.wiskiw.shared.model
 
 data class LatLng(
     val latitude: Double,

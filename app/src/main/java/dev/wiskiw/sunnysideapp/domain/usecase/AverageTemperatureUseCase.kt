@@ -1,6 +1,6 @@
 package dev.wiskiw.sunnysideapp.domain.usecase
 
-import dev.wiskiw.sunnysideapp.common.model.LatLng
+import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.sunnysideapp.data.model.Response
 import dev.wiskiw.sunnysideapp.di.OpenMeteoWeatherModule
 import dev.wiskiw.sunnysideapp.di.WeatherModule

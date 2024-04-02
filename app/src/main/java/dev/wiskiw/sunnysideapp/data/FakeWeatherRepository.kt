@@ -1,6 +1,6 @@
 package dev.wiskiw.sunnysideapp.data
 
-import dev.wiskiw.sunnysideapp.common.model.LatLng
+import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.sunnysideapp.data.model.Response
 import dev.wiskiw.sunnysideapp.domain.repository.WeatherRepository
 import io.ktor.client.HttpClient
