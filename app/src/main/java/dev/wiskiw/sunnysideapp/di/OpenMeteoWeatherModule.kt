@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.wiskiw.sunnysideapp.data.OpenMeteoWeatherRepository
 import dev.wiskiw.sunnysideapp.data.remote.OpenMeteoService
-import dev.wiskiw.sunnysideapp.domain.repository.WeatherRepository
+import dev.wiskiw.shared.data.ForecastRepository
 import io.ktor.client.HttpClient
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -21,7 +21,7 @@ object OpenMeteoWeatherModule {
     @OpenMeteoRepository
     @Provides
     @Singleton
-    fun provideOpenMeteoRepository(jsonClient: HttpClient): WeatherRepository {
+    fun provideOpenMeteoRepository(jsonClient: HttpClient): ForecastRepository {
         return OpenMeteoWeatherRepository(
             openMeteoService = OpenMeteoService(jsonClient),
         )

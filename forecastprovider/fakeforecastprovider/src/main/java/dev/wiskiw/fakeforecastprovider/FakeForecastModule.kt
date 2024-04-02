@@ -1,17 +1,16 @@
-package dev.wiskiw.sunnysideapp.di
+package dev.wiskiw.fakeforecastprovider
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.wiskiw.sunnysideapp.data.FakeWeatherRepository
-import dev.wiskiw.sunnysideapp.domain.repository.WeatherRepository
+import dev.wiskiw.shared.data.ForecastRepository
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface WeatherModule {
+interface FakeForecastModule {
 
     @Qualifier
     annotation class FakeRepository
@@ -19,5 +18,5 @@ interface WeatherModule {
     @FakeRepository
     @Binds
     @Singleton
-    fun bindFakeWeatherRepository(implementation: FakeWeatherRepository): WeatherRepository
+    fun bindFakeWeatherRepository(implementation: FakeForecastRepository): ForecastRepository
 }

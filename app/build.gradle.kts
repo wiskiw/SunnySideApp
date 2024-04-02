@@ -83,6 +83,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(projects.shared)
+    implementation(projects.forecastprovider.fakeforecastprovider)
 }
 
 // Allow references to generated code
