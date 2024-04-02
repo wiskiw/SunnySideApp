@@ -1,4 +1,4 @@
-package dev.wiskiw.sunnysideapp.data.remote.model.reponse
+package dev.wiskiw.openmeteoforecastprovider.data.remote.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

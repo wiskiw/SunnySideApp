@@ -84,6 +84,7 @@ dependencies {
 
     implementation(projects.shared)
     implementation(projects.forecastprovider.fakeforecastprovider)
+    implementation(projects.forecastprovider.openmeteoforecastprovider)
 }
 
 // Allow references to generated code

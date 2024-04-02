@@ -1,4 +1,4 @@
-package dev.wiskiw.sunnysideapp.di
+package dev.wiskiw.openmeteoforecastprovider.di
 
 import android.util.Log
 import dagger.Module
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+internal object NetworkModule {
 
     private val TimeOut = TimeUnit.SECONDS.toMillis(60).toInt()
 

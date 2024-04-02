@@ -13,9 +13,9 @@ import javax.inject.Singleton
 interface FakeForecastModule {
 
     @Qualifier
-    annotation class FakeRepository
+    annotation class Repository
 
-    @FakeRepository
+    @Repository
     @Binds
     @Singleton
     fun bindFakeWeatherRepository(implementation: FakeForecastRepository): ForecastRepository
