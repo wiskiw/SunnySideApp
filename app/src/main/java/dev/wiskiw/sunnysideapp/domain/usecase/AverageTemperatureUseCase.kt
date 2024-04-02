@@ -1,6 +1,8 @@
 package dev.wiskiw.sunnysideapp.domain.usecase
 
+import dev.wiskiw.sunnysideapp.common.model.LatLng
 import dev.wiskiw.sunnysideapp.data.model.Response
+import dev.wiskiw.sunnysideapp.di.OpenMeteoWeatherModule
 import dev.wiskiw.sunnysideapp.di.WeatherModule
 import dev.wiskiw.sunnysideapp.domain.model.AverageTemperature
 import dev.wiskiw.sunnysideapp.domain.repository.WeatherRepository
@@ -10,21 +12,23 @@ import javax.inject.Inject
 
 class AverageTemperatureUseCase @Inject constructor(
     @WeatherModule.FakeRepository val fakeWeatherRepository: WeatherRepository,
+    @OpenMeteoWeatherModule.OpenMeteoRepository val openMeteoRepository: WeatherRepository,
 ) {
 
-    fun getTemperature(): Flow<AverageTemperature> = flow {
-        val fakeTemperatureResponse = fakeWeatherRepository.getTemperature()
+    fun getTemperature(location: LatLng): Flow<AverageTemperature> = flow {
+//        val fakeTemperatureResponse = fakeWeatherRepository.getTemperature(latLng)
+        val openMeteoTemperatureResponse = openMeteoRepository.getTemperature(location)
 
-        when (fakeTemperatureResponse) {
+        when (openMeteoTemperatureResponse) {
             is Response.Success -> {
                 val averageTemperature = AverageTemperature(
-                    value = fakeTemperatureResponse.data,
+                    value = openMeteoTemperatureResponse.data,
                     sourceCount = 1,
                 )
                 emit(averageTemperature)
             }
 
-            is Response.Failure -> error(fakeTemperatureResponse.error)
+            is Response.Failure -> error(openMeteoTemperatureResponse.error)
         }
     }
 }

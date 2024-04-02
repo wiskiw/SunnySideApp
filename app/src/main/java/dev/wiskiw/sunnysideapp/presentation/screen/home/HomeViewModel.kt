@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.wiskiw.sunnysideapp.common.model.LatLng
 import dev.wiskiw.sunnysideapp.domain.usecase.AverageTemperatureUseCase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,7 +25,8 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            temperatureUseCase.getTemperature()
+            val location = LatLng(52.52, 13.619998)
+            temperatureUseCase.getTemperature(location)
                 .collectLatest {
                     temperatureValue = it.value.toString()
                     valueSourceCount = it.sourceCount.toString()

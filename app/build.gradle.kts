@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinKapt)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.jetbrainsKotlinSerialization)
 }
 
 android {
@@ -66,6 +67,12 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
+
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.android)
+    implementation(libs.ktor.logging)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.json.serialization)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
