@@ -3,8 +3,8 @@ package dev.wiskiw.sunnysideapp.domain.usecase
 import dev.wiskiw.fakeforecastprovider.FakeForecastModule
 import dev.wiskiw.openmeteoforecastprovider.di.OpenMeteoForecastModule
 import dev.wiskiw.shared.data.ForecastRepository
-import dev.wiskiw.shared.data.model.Response
 import dev.wiskiw.shared.model.LatLng
+import dev.wiskiw.shared.model.Response
 import dev.wiskiw.sunnysideapp.domain.model.AverageTemperature
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +16,7 @@ class AverageTemperatureUseCase @Inject constructor(
 ) {
 
     fun getTemperature(location: LatLng): Flow<AverageTemperature> = flow {
-//        val fakeTemperatureResponse = fakeWeatherRepository.getTemperature(latLng)
+        val fakeTemperatureResponse = fakeForecastRepository.getTemperature(location)
         val temperatureResponse = openMeteoForecastRepository.getTemperature(location)
 
         when (temperatureResponse) {

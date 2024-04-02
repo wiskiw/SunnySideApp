@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface FakeForecastModule {
+abstract class FakeForecastModule {
 
     @Qualifier
     annotation class Repository
@@ -18,5 +18,5 @@ interface FakeForecastModule {
     @Repository
     @Binds
     @Singleton
-    fun bindFakeWeatherRepository(implementation: FakeForecastRepository): ForecastRepository
+    internal abstract fun bindFakeWeatherRepository(impl: FakeForecastRepository): ForecastRepository
 }

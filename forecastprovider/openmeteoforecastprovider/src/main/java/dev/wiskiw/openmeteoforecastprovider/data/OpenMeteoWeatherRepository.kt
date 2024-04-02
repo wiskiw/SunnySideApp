@@ -2,7 +2,7 @@ package dev.wiskiw.openmeteoforecastprovider.data
 
 import dev.wiskiw.openmeteoforecastprovider.data.remote.OpenMeteoRemoteService
 import dev.wiskiw.shared.model.LatLng
-import dev.wiskiw.shared.data.model.Response
+import dev.wiskiw.shared.model.Response
 import dev.wiskiw.shared.data.ForecastRepository
 import javax.inject.Inject
 

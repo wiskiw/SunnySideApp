@@ -25,15 +25,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
 
-    private val TimeOut = TimeUnit.SECONDS.toMillis(60).toInt()
+    private val TIME_OUT = TimeUnit.SECONDS.toMillis(60).toInt()
 
     @Provides
     @Singleton
     fun provideKtorHttpJsonClient(): HttpClient = HttpClient(Android) {
         install(ContentNegotiation) {
             engine {
-                connectTimeout = TimeOut
-                socketTimeout = TimeOut
+                connectTimeout = TIME_OUT
+                socketTimeout = TIME_OUT
             }
 
             json(
