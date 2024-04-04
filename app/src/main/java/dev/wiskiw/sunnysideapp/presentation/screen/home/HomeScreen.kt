@@ -1,6 +1,7 @@
 package dev.wiskiw.sunnysideapp.presentation.screen.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -25,16 +26,19 @@ fun HomeScreen(
         color = MaterialTheme.colorScheme.background
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Text(
+            Column(
                 modifier = Modifier.align(Alignment.Center),
-                text = viewModel.temperatureValue,
-                fontSize = 32.sp,
-            )
-            Text(
-                modifier = Modifier.align(Alignment.TopEnd),
-                text = viewModel.valueSourceCount,
-                fontSize = 8.sp,
-            )
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = "Source count: ${viewModel.valueSourceCount}",
+                    fontSize = 16.sp,
+                )
+                Text(
+                    text = viewModel.temperatureValue,
+                    fontSize = 32.sp,
+                )
+            }
         }
     }
 }

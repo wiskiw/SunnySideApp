@@ -26,9 +26,9 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val location = LatLng(52.52, 13.619998)
-            temperatureUseCase.getTemperature(location)
+            temperatureUseCase.getTemperature(this, location)
                 .collectLatest {
-                    temperatureValue = it.value.toString()
+                    temperatureValue = "%.1f°C".format(it.value)
                     valueSourceCount = it.sourceCount.toString()
                 }
         }
