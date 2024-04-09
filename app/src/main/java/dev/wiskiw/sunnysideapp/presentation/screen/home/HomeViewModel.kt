@@ -1,35 +1,34 @@
 package dev.wiskiw.sunnysideapp.presentation.screen.home
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.wiskiw.shared.model.LatLng
-import dev.wiskiw.sunnysideapp.domain.usecase.AverageTemperatureUseCase
+import dev.wiskiw.sunnysideapp.domain.usecase.LocalTemperatureUseCase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    temperatureUseCase: AverageTemperatureUseCase,
+    localTemperatureUseCase: LocalTemperatureUseCase,
 ) : ViewModel() {
 
     var temperatureValue: String by mutableStateOf("")
         private set
 
-    var valueSourceCount: String by mutableStateOf("")
+    var valueSourceCount: Int by mutableIntStateOf(0)
         private set
 
     init {
         viewModelScope.launch {
-            val location = LatLng(52.52, 13.619998)
-            temperatureUseCase.getTemperature(this, location)
+            localTemperatureUseCase.getTemperature(this)
                 .collectLatest {
                     temperatureValue = "%.1f°C".format(it.value)
-                    valueSourceCount = it.sourceCount.toString()
+                    valueSourceCount = it.sourceCount
                 }
         }
     }

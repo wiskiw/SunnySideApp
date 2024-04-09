@@ -28,7 +28,7 @@ class AverageTemperatureUseCase @Inject constructor(
     }
 
     private val forecastRepositories = listOf(
-        fakeForecastRepository,
+//        fakeForecastRepository,
         openMeteoForecastRepository,
     )
 
