@@ -6,7 +6,7 @@ import dev.wiskiw.shared.model.Response
 interface ForecastRepository {
 
     /**
-     * Return a temperature in celsius at location [location] at the current moment.
+     * Return a temperature in celsius at location [latLng] at the current moment.
      */
-    suspend fun getTemperature(location: LatLng): Response<Float>
+    suspend fun getTemperature(latLng: LatLng): Response<Float>
 }

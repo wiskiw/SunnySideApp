@@ -28,11 +28,11 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            localTemperatureUseCase.getTemperature(this)
-                .collectLatest { (geoAddress, avgTemperature) ->
-                    address = geoAddress?.locality?.toString()
-                    temperatureValue = "%.1f°C".format(avgTemperature.value)
-                    valueSourceCount = avgTemperature.sourceCount
+            localTemperatureUseCase.getLocalTemperature(this)
+                .collectLatest { localTemperature ->
+                    address = localTemperature.address?.locality?.toString()
+                    temperatureValue = "%.1f°C".format(localTemperature.temperature.value)
+                    valueSourceCount = localTemperature.temperature.sourceCount
                 }
         }
     }

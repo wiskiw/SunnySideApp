@@ -14,7 +14,7 @@ import javax.inject.Inject
 class LocalTemperatureUseCase @Inject constructor(
     private val locationService: LocationService,
     private val locationAddressUseCase: LocationAddressUseCase,
-    private val temperatureUseCase: AverageTemperatureUseCase,
+    private val temperatureUseCase: CompositeTemperatureUseCase,
 ) {
 
     companion object {
@@ -22,7 +22,7 @@ class LocalTemperatureUseCase @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun getTemperature(
+    fun getLocalTemperature(
         scope: CoroutineScope,
     ): Flow<LocalTemperature> = flow {
         val location = locationService.getLocation()

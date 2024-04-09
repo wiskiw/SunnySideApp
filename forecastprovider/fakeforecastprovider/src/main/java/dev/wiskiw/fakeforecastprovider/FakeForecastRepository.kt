@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 internal class FakeForecastRepository @Inject constructor() : ForecastRepository {
 
-    override suspend fun getTemperature(location: LatLng): Response<Float> {
+    override suspend fun getTemperature(latLng: LatLng): Response<Float> {
         delay(3000)
         return Response.Success(Math.PI.toFloat())
     }

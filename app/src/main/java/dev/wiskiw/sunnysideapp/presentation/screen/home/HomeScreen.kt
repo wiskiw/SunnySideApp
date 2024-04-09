@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -73,7 +74,8 @@ private fun Content(
                 if (temperatureValue.isNotBlank()) {
                     Text(
                         text = temperatureValue,
-                        fontSize = 32.sp,
+                        fontSize = 64.sp,
+                        fontWeight = FontWeight.Medium,
                     )
                 }
                 EnsureLocationPermission(
@@ -145,7 +147,7 @@ fun ContentPreview() {
             locationPermissionsState = emptyPermissionsState,
             address = "Preview address",
             valueSourceCount = 3,
-            temperatureValue = "12C",
+            temperatureValue = "23°C",
         )
     }
 }

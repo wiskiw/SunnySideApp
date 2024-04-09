@@ -9,8 +9,8 @@ import javax.inject.Inject
 internal class OpenMeteoWeatherRepository @Inject constructor(
     private val openMeteoRemoteService: OpenMeteoRemoteService,
 ) : ForecastRepository {
-    override suspend fun getTemperature(location: LatLng): Response<Float> {
-        val forecastResponse = openMeteoRemoteService.getForecast(location)
+    override suspend fun getTemperature(latLng: LatLng): Response<Float> {
+        val forecastResponse = openMeteoRemoteService.getForecast(latLng)
         val temperature = forecastResponse.hourly.temperatures.firstOrNull()
 
         return temperature

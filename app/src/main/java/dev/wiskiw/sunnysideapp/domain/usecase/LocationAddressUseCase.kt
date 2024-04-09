@@ -5,9 +5,11 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.util.Log
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.IOException
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.coroutines.resume
 
 class LocationAddressUseCase @Inject constructor(
     private val application: Application,
@@ -20,14 +22,15 @@ class LocationAddressUseCase @Inject constructor(
     suspend fun getAddress(location: Location): Address? {
         val geocoder = Geocoder(application, Locale.getDefault())
 
-        return try {
-            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1) ?: emptyList()
-            addresses.firstOrNull()
-        } catch (e: IOException) {
-            Log.e(LOG_TAG, "Exception during fetching city name", e)
-            null
+        return suspendCancellableCoroutine { continuation ->
+            try {
+                val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1) ?: emptyList()
+                continuation.resume(addresses.firstOrNull())
+            } catch (e: IOException) {
+                Log.e(LOG_TAG, "Exception during fetching city name", e)
+                continuation.resume(null)
+            }
         }
-
     }
 
 }

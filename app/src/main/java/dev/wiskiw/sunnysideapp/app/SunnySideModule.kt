@@ -15,7 +15,7 @@ object SunnySideModule {
 
     @Provides
     @Singleton
-    fun providesDeviceLocationService(
+    fun providesFusedLocationService(
         application: Application,
     ): LocationService = FusedLocationService(application)
 
