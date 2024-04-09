@@ -31,9 +31,14 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val locationPermissionsState = rememberMultiplePermissionsState(listOf(Manifest.permission.ACCESS_COARSE_LOCATION))
+    if (locationPermissionsState.allPermissionsGranted) {
+        viewModel.handleEvent(HomeViewModel.Event.LocationPermissionGranted)
+    }
+
     Content(
         modifier = modifier,
-        locationPermissionsState = rememberMultiplePermissionsState(listOf(Manifest.permission.ACCESS_COARSE_LOCATION)),
+        locationPermissionsState = locationPermissionsState,
         address = viewModel.address,
         valueSourceCount = viewModel.valueSourceCount,
         temperatureValue = viewModel.temperatureValue,
