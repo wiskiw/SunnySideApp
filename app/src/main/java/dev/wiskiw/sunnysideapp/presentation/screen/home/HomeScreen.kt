@@ -33,6 +33,7 @@ fun HomeScreen(
     Content(
         modifier = modifier,
         locationPermissionsState = rememberMultiplePermissionsState(listOf(Manifest.permission.ACCESS_COARSE_LOCATION)),
+        address = viewModel.address,
         valueSourceCount = viewModel.valueSourceCount,
         temperatureValue = viewModel.temperatureValue,
     )
@@ -43,6 +44,7 @@ fun HomeScreen(
 private fun Content(
     modifier: Modifier = Modifier,
     locationPermissionsState: MultiplePermissionsState,
+    address: String?,
     valueSourceCount: Int,
     temperatureValue: String,
 ) {
@@ -56,6 +58,12 @@ private fun Content(
                 modifier = Modifier.align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                if (address != null) {
+                    Text(
+                        text = address,
+                        fontSize = 16.sp,
+                    )
+                }
                 if (valueSourceCount > 0) {
                     Text(
                         text = "Source count: $valueSourceCount",
@@ -135,6 +143,7 @@ fun ContentPreview() {
         Content(
             modifier = Modifier,
             locationPermissionsState = emptyPermissionsState,
+            address = "Preview address",
             valueSourceCount = 3,
             temperatureValue = "12C",
         )

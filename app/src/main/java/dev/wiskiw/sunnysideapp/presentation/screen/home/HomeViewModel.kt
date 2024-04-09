@@ -17,6 +17,9 @@ class HomeViewModel @Inject constructor(
     localTemperatureUseCase: LocalTemperatureUseCase,
 ) : ViewModel() {
 
+    var address: String? by mutableStateOf(null)
+        private set
+
     var temperatureValue: String by mutableStateOf("")
         private set
 
@@ -26,9 +29,10 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             localTemperatureUseCase.getTemperature(this)
-                .collectLatest {
-                    temperatureValue = "%.1f°C".format(it.value)
-                    valueSourceCount = it.sourceCount
+                .collectLatest { (geoAddress, avgTemperature) ->
+                    address = geoAddress?.locality?.toString()
+                    temperatureValue = "%.1f°C".format(avgTemperature.value)
+                    valueSourceCount = avgTemperature.sourceCount
                 }
         }
     }
