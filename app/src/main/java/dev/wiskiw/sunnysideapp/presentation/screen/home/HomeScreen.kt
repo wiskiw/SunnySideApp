@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +33,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val locationPermissionsState = rememberMultiplePermissionsState(listOf(Manifest.permission.ACCESS_COARSE_LOCATION))
-    if (locationPermissionsState.allPermissionsGranted) {
-        viewModel.handleEvent(HomeViewModel.Event.LocationPermissionGranted)
+    LaunchedEffect(locationPermissionsState) {
+        if (locationPermissionsState.allPermissionsGranted) {
+            viewModel.handleEvent(HomeViewModel.Event.LocationPermissionGranted)
+        }
     }
 
     Content(

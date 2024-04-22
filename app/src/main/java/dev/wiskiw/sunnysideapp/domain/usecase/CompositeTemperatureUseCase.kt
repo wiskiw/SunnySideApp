@@ -3,6 +3,7 @@ package dev.wiskiw.sunnysideapp.domain.usecase
 import android.util.Log
 import dev.wiskiw.fakeforecastprovider.FakeForecastModule
 import dev.wiskiw.openmeteoforecastprovider.di.OpenMeteoForecastModule
+import dev.wiskiw.openweathermap.di.OpenWeatherMapModule
 import dev.wiskiw.shared.data.ForecastRepository
 import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.shared.model.Response
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class CompositeTemperatureUseCase @Inject constructor(
     @FakeForecastModule.Repository val fakeForecastRepository: ForecastRepository,
     @OpenMeteoForecastModule.Repository val openMeteoForecastRepository: ForecastRepository,
+    @OpenWeatherMapModule.Repository val openWeatherMapRepository: ForecastRepository,
 ) {
 
     companion object {
@@ -31,6 +33,7 @@ class CompositeTemperatureUseCase @Inject constructor(
     private val forecastRepositories = listOf(
 //        fakeForecastRepository,
         openMeteoForecastRepository,
+        openWeatherMapRepository,
     )
 
     fun getTemperature(

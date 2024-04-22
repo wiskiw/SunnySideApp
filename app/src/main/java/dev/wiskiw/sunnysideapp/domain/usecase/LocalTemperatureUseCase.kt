@@ -6,6 +6,7 @@ import dev.wiskiw.sunnysideapp.domain.model.LocalTemperature
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.transform
@@ -21,17 +22,14 @@ class LocalTemperatureUseCase @Inject constructor(
         private const val LOG_TAG = "LocalTempUC"
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun getLocalTemperature(
         scope: CoroutineScope,
     ): Flow<LocalTemperature> = flow {
         val location = locationService.getLocation()
-        emit(location)
-    }.flatMapConcat { location ->
         val address = locationAddressUseCase.getAddress(location)
         val latLng = LatLng(location.latitude, location.longitude)
 
-        temperatureUseCase.getTemperature(scope, latLng)
+        val temperatureFlow = temperatureUseCase.getTemperature(scope, latLng)
             .transform {
                 val localTemp = LocalTemperature(
                     temperature = it,
@@ -39,5 +37,7 @@ class LocalTemperatureUseCase @Inject constructor(
                 )
                 emit(localTemp)
             }
+
+        emitAll(temperatureFlow)
     }
 }

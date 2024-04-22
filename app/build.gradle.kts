@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -21,6 +23,18 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+
+        // Load the values from .properties file
+        val keystoreFile = project.rootProject.file("apikeys.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        buildConfigField(
+            type = "String",
+            name = "OPEN_WEATHER_MAP_API_KEY",
+            value = properties.getProperty("openweathermap.apikey") ?: ""
+        )
     }
 
     buildTypes {
@@ -41,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -87,6 +102,7 @@ dependencies {
     implementation(projects.shared)
     implementation(projects.forecastprovider.fakeforecastprovider)
     implementation(projects.forecastprovider.openmeteoforecastprovider)
+    implementation(projects.forecastprovider.openweathermapprovider)
 }
 
 // Allow references to generated code

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider
 import dev.wiskiw.sunnysideapp.data.service.location.FusedLocationService
 import dev.wiskiw.sunnysideapp.data.service.location.LocationService
 import javax.inject.Singleton
@@ -18,5 +19,9 @@ object SunnySideModule {
     fun providesFusedLocationService(
         application: Application,
     ): LocationService = FusedLocationService(application)
+
+    @Provides
+    @Singleton
+    internal fun provideBuildConfigFieldsProvider(): BuildFieldsProvider = SunnySideAppBuildFieldsProvider()
 
 }

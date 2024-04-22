@@ -39,3 +39,10 @@ I'm gonna try to use following hierarchy as a project structure template.
 - service  // services directly tied to app functionality
   - MyBackgroundService.kt
 ```
+
+### Setup
+Before building the project, obtain your API keys and save it in the `apikeys.properties` file using the following template.
+```properties  
+# https://home.openweathermap.org/api_keys  
+openweathermap.apikey="YOUR OpenWeatherMap API KEY HERE"
+```
