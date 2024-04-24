@@ -12,6 +12,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * This ViewModel follows a hybrid approach between MVVM and MVI patterns.
+ * It incorporates Event (Intent) from MVI for handling user interactions,
+ * while maintaining separate state for each field as seen in MVVM.
+ *
+ * Considerations:
+ * - Single `handleEvent()` method reduces boilerplate code and simplifies handling UI actions in the Screen.
+ * - The `handleEvent()` centralizes processing of all UI interactions, including navigation. It can also delegate
+ * specific actions back to the UI as needed using `SideEffect`.
+ */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val localTemperatureUseCase: LocalTemperatureUseCase,
@@ -21,7 +31,7 @@ class HomeViewModel @Inject constructor(
         data object LocationPermissionGranted : Event()
     }
 
-    sealed class  SideEffect : BaseViewModel.SideEffect
+    sealed class SideEffect : BaseViewModel.SideEffect
 
     var address: String? by mutableStateOf(null)
         private set
