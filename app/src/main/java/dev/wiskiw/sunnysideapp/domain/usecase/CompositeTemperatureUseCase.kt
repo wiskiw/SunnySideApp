@@ -21,20 +21,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompositeTemperatureUseCase @Inject constructor(
-    @FakeForecastModule.Repository val fakeForecastRepository: ForecastRepository,
-    @OpenMeteoForecastModule.Repository val openMeteoForecastRepository: ForecastRepository,
-    @OpenWeatherMapModule.Repository val openWeatherMapRepository: ForecastRepository,
+    val forecastRepositories : List<ForecastRepository>
+//    @FakeForecastModule.Repository val fakeForecastRepository: ForecastRepository,
+//    @OpenMeteoForecastModule.Repository val openMeteoForecastRepository: ForecastRepository,
+//    @OpenWeatherMapModule.Repository val openWeatherMapRepository: ForecastRepository,
 ) {
 
     companion object {
         private const val LOG_TAG = "CompositeTempUC"
     }
-
-    private val forecastRepositories = listOf(
-//        fakeForecastRepository,
-        openMeteoForecastRepository,
-        openWeatherMapRepository,
-    )
 
     fun getTemperature(
         scope: CoroutineScope,

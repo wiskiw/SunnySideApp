@@ -5,9 +5,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.wiskiw.openmeteoforecastprovider.di.OpenMeteoForecastModule
+import dev.wiskiw.openweathermap.di.OpenWeatherMapModule
+import dev.wiskiw.shared.data.ForecastRepository
 import dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider
 import dev.wiskiw.sunnysideapp.data.service.location.FusedLocationService
 import dev.wiskiw.sunnysideapp.data.service.location.LocationService
+import dev.wiskiw.sunnysideapp.domain.usecase.CompositeTemperatureUseCase
 import javax.inject.Singleton
 
 @Module
@@ -23,5 +27,17 @@ object SunnySideModule {
     @Provides
     @Singleton
     internal fun provideBuildConfigFieldsProvider(): BuildFieldsProvider = SunnySideAppBuildFieldsProvider()
+
+    @Provides
+    @Singleton
+    internal fun provideCompositeTemperatureUseCase(
+        @OpenMeteoForecastModule.Repository openMeteoForecastRepository: ForecastRepository,
+        @OpenWeatherMapModule.Repository openWeatherMapRepository: ForecastRepository,
+    ): CompositeTemperatureUseCase {
+        val forecastRepositories = listOf(
+            openMeteoForecastRepository, openWeatherMapRepository
+        )
+        return CompositeTemperatureUseCase(forecastRepositories)
+    }
 
 }
