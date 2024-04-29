@@ -44,6 +44,7 @@ fun HomeScreen(
         locationPermissionsState = locationPermissionsState,
         address = viewModel.address,
         valueSourceCount = viewModel.valueSourceCount,
+        unavailableSourceCount = viewModel.unavailableSourceCount,
         temperatureValue = viewModel.temperatureValue,
     )
 }
@@ -55,6 +56,7 @@ private fun Content(
     locationPermissionsState: MultiplePermissionsState,
     address: String?,
     valueSourceCount: Int,
+    unavailableSourceCount: Int,
     temperatureValue: String,
 ) {
     // A surface container using the 'background' color from the theme
@@ -69,13 +71,19 @@ private fun Content(
             ) {
                 if (address != null) {
                     Text(
-                        text = address,
+                        text = "Location: $address",
                         fontSize = 16.sp,
                     )
                 }
                 if (valueSourceCount > 0) {
                     Text(
-                        text = "Source count: $valueSourceCount",
+                        text = "Available sources: $valueSourceCount",
+                        fontSize = 16.sp,
+                    )
+                }
+                if (unavailableSourceCount > 0) {
+                    Text(
+                        text = "Unavailable sources: $unavailableSourceCount",
                         fontSize = 16.sp,
                     )
                 }
@@ -155,6 +163,7 @@ fun ContentPreview() {
             locationPermissionsState = emptyPermissionsState,
             address = "Preview address",
             valueSourceCount = 3,
+            unavailableSourceCount = 1,
             temperatureValue = "23°C",
         )
     }

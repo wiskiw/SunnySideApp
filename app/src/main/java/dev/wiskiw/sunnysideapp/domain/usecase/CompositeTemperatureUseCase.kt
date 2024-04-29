@@ -1,9 +1,6 @@
 package dev.wiskiw.sunnysideapp.domain.usecase
 
 import android.util.Log
-import dev.wiskiw.fakeforecastprovider.FakeForecastModule
-import dev.wiskiw.openmeteoforecastprovider.di.OpenMeteoForecastModule
-import dev.wiskiw.openweathermap.di.OpenWeatherMapModule
 import dev.wiskiw.shared.data.ForecastRepository
 import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.shared.model.Response
@@ -16,38 +13,39 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.runningFold
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompositeTemperatureUseCase @Inject constructor(
-    val forecastRepositories : List<ForecastRepository>
-//    @FakeForecastModule.Repository val fakeForecastRepository: ForecastRepository,
-//    @OpenMeteoForecastModule.Repository val openMeteoForecastRepository: ForecastRepository,
-//    @OpenWeatherMapModule.Repository val openWeatherMapRepository: ForecastRepository,
+    val forecastRepositories: List<ForecastRepository>,
 ) {
 
     companion object {
         private const val LOG_TAG = "CompositeTempUC"
     }
 
+    private data class TemperatureData(
+        val value: Float,
+        val sourceName: String,
+    )
+
     fun getTemperature(
         scope: CoroutineScope,
         latLng: LatLng,
     ): Flow<CompositeTemperature> {
-        val temperatureResponseChannel = Channel<Response<Float>>()
+        val temperatureDataChannel = Channel<TemperatureData>()
 
         val temperatureFetchJobs = forecastRepositories.map { repository ->
             scope.launch(start = CoroutineStart.LAZY) {
-                val temperatureResponse = repository.getTemperature(latLng)
-                temperatureResponseChannel.send(temperatureResponse)
+                val temperatureData = fetchTemperatureData(latLng = latLng, repository = repository)
+                temperatureDataChannel.send(temperatureData)
             }
         }
 
         val closeChannelHandler = { _: Throwable? ->
             val isAllJobsCompleted = temperatureFetchJobs.find { !it.isCompleted } == null
             if (isAllJobsCompleted) {
-                temperatureResponseChannel.close()
+                temperatureDataChannel.close()
             }
         }
 
@@ -56,23 +54,42 @@ class CompositeTemperatureUseCase @Inject constructor(
             .onEach { it.invokeOnCompletion(closeChannelHandler) }
             .onEach { it.start() }
 
-        return temperatureResponseChannel.averageTemperatureAsFlow()
+        return temperatureDataChannel.averageTemperatureAsFlow()
     }
 
-    private fun Channel<Response<Float>>.averageTemperatureAsFlow(): Flow<CompositeTemperature> =
-        consumeAsFlow()
-            .transform { temperatureResponse ->
-                when (temperatureResponse) {
-                    is Response.Success -> emit(temperatureResponse.data)
-                    is Response.Failure -> Log.w(LOG_TAG, "Failed to fetch temperature", temperatureResponse.error)
-                }
+    private suspend fun fetchTemperatureData(
+        latLng: LatLng,
+        repository: ForecastRepository,
+    ): TemperatureData {
+        when (
+            val temperatureResponse = repository.getTemperature(latLng)
+        ) {
+            is Response.Success -> {
+                return TemperatureData(
+                    value = temperatureResponse.data,
+                    sourceName = temperatureResponse.javaClass.canonicalName ?: "unknown",
+                )
             }
-            .runningFold(emptyList<Float>()) { acc, temperature -> acc + temperature }
+
+            is Response.Failure -> {
+                Log.w(LOG_TAG, "Failed to fetch temperature", temperatureResponse.error)
+                return TemperatureData(
+                    value = Float.NaN,
+                    sourceName = temperatureResponse.javaClass.canonicalName ?: "unknown",
+                )
+            }
+        }
+    }
+
+    private fun Channel<TemperatureData>.averageTemperatureAsFlow(): Flow<CompositeTemperature> =
+        consumeAsFlow()
+            .runningFold(emptyList<TemperatureData>()) { acc, temperature -> acc + temperature }
             .filter { temperatures -> temperatures.isNotEmpty() }
             .map { temperatures ->
                 CompositeTemperature(
-                    value = temperatures.average().toFloat(),
-                    sourceCount = temperatures.size,
+                    value = temperatures.filter { !it.value.isNaN() }.map { it.value }.average().toFloat(),
+                    availableSources = temperatures.filter { !it.value.isNaN() }.map { it.sourceName },
+                    unavailableSources = temperatures.filter { it.value.isNaN() }.map { it.sourceName },
                 )
             }
 }

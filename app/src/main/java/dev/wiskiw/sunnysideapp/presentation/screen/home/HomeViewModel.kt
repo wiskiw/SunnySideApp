@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.wiskiw.sunnysideapp.domain.usecase.LocalTemperatureUseCase
 import dev.wiskiw.sunnysideapp.presentation.utils.BaseViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,6 +43,9 @@ class HomeViewModel @Inject constructor(
     var valueSourceCount: Int by mutableIntStateOf(0)
         private set
 
+    var unavailableSourceCount: Int by mutableIntStateOf(0)
+        private set
+
     override fun handleEvent(event: Event) {
         when (event) {
             is Event.LocationPermissionGranted -> fetchTemperature()
@@ -54,7 +58,8 @@ class HomeViewModel @Inject constructor(
                 .collectLatest { localTemperature ->
                     address = localTemperature.address?.locality?.toString()
                     temperatureValue = "%.1f°C".format(localTemperature.temperature.value)
-                    valueSourceCount = localTemperature.temperature.sourceCount
+                    valueSourceCount = localTemperature.temperature.availableSources.size
+                    unavailableSourceCount = localTemperature.temperature.unavailableSources.size
                 }
         }
     }

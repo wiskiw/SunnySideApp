@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.wiskiw.fakeforecastprovider.FakeForecastModule
 import dev.wiskiw.openmeteoforecastprovider.di.OpenMeteoForecastModule
 import dev.wiskiw.openweathermap.di.OpenWeatherMapModule
 import dev.wiskiw.shared.data.ForecastRepository
@@ -33,9 +34,12 @@ object SunnySideModule {
     internal fun provideCompositeTemperatureUseCase(
         @OpenMeteoForecastModule.Repository openMeteoForecastRepository: ForecastRepository,
         @OpenWeatherMapModule.Repository openWeatherMapRepository: ForecastRepository,
+        @FakeForecastModule.Repository fakeRepository: ForecastRepository,
     ): CompositeTemperatureUseCase {
         val forecastRepositories = listOf(
-            openMeteoForecastRepository, openWeatherMapRepository
+            openMeteoForecastRepository,
+            openWeatherMapRepository,
+            fakeRepository,
         )
         return CompositeTemperatureUseCase(forecastRepositories)
     }
