@@ -1,10 +1,17 @@
 package dev.wiskiw.sunnysideapp.presentation.screen.home.compose
 
-import androidx.compose.animation.core.FloatTweenSpec
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.StartOffset
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -12,7 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,6 +34,9 @@ import kotlin.math.sin
 
 private object CompositeTemperatureDefaults {
     const val sourceCountChangedAnimationDuration = 800
+    const val idleAnimationDuration = 2000
+    const val maxWeatherSourceBubbleRadiusMagnifyFactor = 1.2f
+    const val maxWeatherSourceBubbleOffsetFactor = 0.4f
 }
 
 @Composable
@@ -48,62 +58,106 @@ fun CompositeTemperature(
 //                ),
 //        )
 
-        val weatherSourceBubbleRadius = MaterialTheme.size.two
 
-        val sourceCountChangedAnimationSpec = FloatTweenSpec(
-            duration = CompositeTemperatureDefaults.sourceCountChangedAnimationDuration,
-        )
-        var targetOffsetAngle by remember { mutableFloatStateOf(0f) }
-        val offsetAngle: Float by animateFloatAsState(
-            targetValue = targetOffsetAngle,
-            label = "Offset Angle",
-            animationSpec = sourceCountChangedAnimationSpec,
-        )
-
-        var targetGapAngle by remember { mutableFloatStateOf(0f) }
-        val gapAngle: Float by animateFloatAsState(
-            targetValue = targetGapAngle,
-            label = "Gap Angle",
-            animationSpec = sourceCountChangedAnimationSpec,
-        )
-
-        var targetRadius by remember { mutableFloatStateOf(0f) }
-        val radius: Float by animateFloatAsState(
-            targetValue = targetRadius,
-            label = "Gap Angle",
-            animationSpec = sourceCountChangedAnimationSpec,
-        )
-
-        var targetBubbleRadius by remember { mutableFloatStateOf(0f) }
-        val bubbleRadius: Float by animateFloatAsState(
-            targetValue = targetBubbleRadius,
-            label = "Gap Angle",
-            animationSpec = sourceCountChangedAnimationSpec,
-        )
+        val minWeatherSourceBubbleRadius = MaterialTheme.size.five
+        val maxWeatherSourceBubbleRadius =
+            (minWeatherSourceBubbleRadius.value * CompositeTemperatureDefaults.maxWeatherSourceBubbleRadiusMagnifyFactor).dp
 
 
-        LaunchedEffect(sources.size) {
-            targetGapAngle = 360f / sources.size
-            targetOffsetAngle = sources.size * 10f
-        }
+        var isVisibleState by remember { mutableStateOf(false) }
         LaunchedEffect(Unit) {
-            targetRadius = ((this@BoxWithConstraints.maxWidth / 2) - weatherSourceBubbleRadius).value
-            targetBubbleRadius = weatherSourceBubbleRadius.value * 2
+            isVisibleState = true
         }
+        val initTransition = updateTransition(
+            targetState = isVisibleState,
+            label = "initTransition",
+        )
+        val offsetAngle by initTransition.animateFloat(
+            transitionSpec = { tween(durationMillis = CompositeTemperatureDefaults.sourceCountChangedAnimationDuration) },
+            label = "offsetAngle",
+            targetValueByState = { isVisible -> if (isVisible) sources.size * 10f else 0f }
+        )
+        val gapAngle by initTransition.animateFloat(
+            transitionSpec = { tween(durationMillis = CompositeTemperatureDefaults.sourceCountChangedAnimationDuration) },
+            label = "gapAngle",
+            targetValueByState = { isVisible -> if (isVisible) 360f / sources.size else 0f }
+        )
+        val radius by initTransition.animateFloat(
+            transitionSpec = { tween(durationMillis = CompositeTemperatureDefaults.sourceCountChangedAnimationDuration) },
+            label = "radius",
+            targetValueByState = { isVisible -> if (isVisible) ((maxWidth / 2) - maxWeatherSourceBubbleRadius).value else 0f }
+        )
+        val weatherSourceBubbleRadius by initTransition.animateFloat(
+            transitionSpec = { tween(durationMillis = CompositeTemperatureDefaults.sourceCountChangedAnimationDuration) },
+            label = "weatherSourceBubbleRadius",
+            targetValueByState = { isVisible -> if (isVisible) minWeatherSourceBubbleRadius.value else 0f }
+        )
 
         for ((index, source) in sources.withIndex()) {
+            val idleTransition = rememberInfiniteTransition(label = "idleTransition")
+            val weatherSourceBubbleRadiusFactor by idleTransition.animateFloat(
+                initialValue = 1f,
+                targetValue = CompositeTemperatureDefaults.maxWeatherSourceBubbleRadiusMagnifyFactor,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(
+                        durationMillis = CompositeTemperatureDefaults.idleAnimationDuration,
+                        easing = LinearEasing,
+                    ),
+                    repeatMode = RepeatMode.Reverse,
+                    initialStartOffset = StartOffset(
+                        offsetMillis = (CompositeTemperatureDefaults.idleAnimationDuration / 10..CompositeTemperatureDefaults.idleAnimationDuration)
+                            .random()
+                    )
+                ),
+                label = "weatherSourceBubbleRadiusFactor"
+            )
+            val weatherSourceBubbleOffsetXFactor by idleTransition.animateFloat(
+                initialValue = 0f,
+                targetValue = CompositeTemperatureDefaults.maxWeatherSourceBubbleOffsetFactor,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(
+                        durationMillis = CompositeTemperatureDefaults.idleAnimationDuration,
+                        easing = LinearEasing,
+                    ),
+                    repeatMode = RepeatMode.Reverse,
+                    initialStartOffset = StartOffset(
+                        offsetMillis = (0..CompositeTemperatureDefaults.idleAnimationDuration).random(),
+                    )
+                ),
+                label = "weatherSourceBubbleOffsetXFactor"
+            )
+            val weatherSourceBubbleOffsetYFactor by idleTransition.animateFloat(
+                initialValue = 0f,
+                targetValue = CompositeTemperatureDefaults.maxWeatherSourceBubbleOffsetFactor,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(
+                        durationMillis = CompositeTemperatureDefaults.idleAnimationDuration,
+                        easing = LinearEasing,
+                    ),
+                    repeatMode = RepeatMode.Reverse,
+                    initialStartOffset = StartOffset(
+                        offsetMillis = (CompositeTemperatureDefaults.idleAnimationDuration / 10..CompositeTemperatureDefaults.idleAnimationDuration)
+                            .random()
+                    )
+                ),
+                label = "weatherSourceBubbleOffsetYFactor"
+            )
+
+
             val xyCoordinate = PolarCoordinate(
                 radius = radius,
                 angleDegrees = index * gapAngle + offsetAngle
             )
                 .toCartesianCoordinate()
 
+            val extraXOffset = weatherSourceBubbleRadius*weatherSourceBubbleOffsetXFactor
+            val extraYOffset = weatherSourceBubbleRadius*weatherSourceBubbleOffsetYFactor
             WeatherSourceBubble(
                 modifier = Modifier
-                    .size(bubbleRadius.dp)
+                    .size((weatherSourceBubbleRadius * 2 * weatherSourceBubbleRadiusFactor).dp)
                     .offset(
-                        x = xyCoordinate.first.dp,
-                        y = xyCoordinate.second.dp,
+                        x = xyCoordinate.first.dp + extraXOffset.dp,
+                        y = xyCoordinate.second.dp + extraYOffset.dp,
                     )
                     .align(Alignment.Center),
                 isActive = source,
@@ -140,13 +194,14 @@ private data class PolarCoordinate(
 
 @Preview(
     showBackground = true,
-    device = Devices.PIXEL_7,
+    widthDp = 512,
+    heightDp = 512,
 )
 @Composable
 private fun CompositeTemperaturePreview() {
     CompositeTemperature(
         modifier = Modifier
-            .size(360.dp),
+            .fillMaxSize(),
         sources = listOf(
             true,
             true,
