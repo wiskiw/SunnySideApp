@@ -1,10 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.jetbrainsKotlinKapt)
     alias(libs.plugins.jetbrainsKotlinSerialization)
-    alias(libs.plugins.hilt)
-
 }
 
 android {
@@ -41,9 +38,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation)
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
 
     implementation(libs.ktor.core)
     implementation(libs.ktor.android)
@@ -52,9 +48,4 @@ dependencies {
     implementation(libs.ktor.json.serialization)
 
     implementation(projects.shared)
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }

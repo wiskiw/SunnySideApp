@@ -8,10 +8,9 @@ import android.util.Log
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.IOException
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class LocationAddressUseCase @Inject constructor(
+class LocationAddressUseCase(
     private val application: Application,
 ) {
 

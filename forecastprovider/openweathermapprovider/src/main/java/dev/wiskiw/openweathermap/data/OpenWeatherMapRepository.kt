@@ -5,9 +5,8 @@ import dev.wiskiw.shared.data.ForecastRepository
 import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.shared.model.Response
 import dev.wiskiw.shared.utils.wrapWithResponse
-import javax.inject.Inject
 
-internal class OpenWeatherMapRepository @Inject constructor(
+internal class OpenWeatherMapRepository(
     private val weatherService: OpenWeatherMapService,
 ) : ForecastRepository {
     override suspend fun getTemperature(latLng: LatLng): Response<Float> = wrapWithResponse {

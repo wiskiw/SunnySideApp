@@ -3,8 +3,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.jetbrainsKotlinKapt)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.jetbrainsKotlinSerialization)
 }
 
@@ -81,9 +79,9 @@ dependencies {
     implementation(libs.accompanist.permissions)
     implementation(libs.play.services.location)
 
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation)
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.androidx.compose)
 
     implementation(libs.ktor.core)
     implementation(libs.ktor.android)
@@ -105,9 +103,4 @@ dependencies {
     implementation(projects.forecastprovider.fakeforecastprovider)
     implementation(projects.forecastprovider.openmeteoforecastprovider)
     implementation(projects.forecastprovider.openweathermapprovider)
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }

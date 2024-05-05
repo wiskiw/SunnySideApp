@@ -4,15 +4,12 @@ import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.sunnysideapp.data.service.location.LocationService
 import dev.wiskiw.sunnysideapp.domain.model.LocalTemperature
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.transform
-import javax.inject.Inject
 
-class LocalTemperatureUseCase @Inject constructor(
+class LocalTemperatureUseCase(
     private val locationService: LocationService,
     private val locationAddressUseCase: LocationAddressUseCase,
     private val temperatureUseCase: CompositeTemperatureUseCase,

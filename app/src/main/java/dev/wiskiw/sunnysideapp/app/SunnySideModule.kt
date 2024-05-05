@@ -1,47 +1,49 @@
 package dev.wiskiw.sunnysideapp.app
 
-import android.app.Application
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dev.wiskiw.fakeforecastprovider.FakeForecastModule
-import dev.wiskiw.openmeteoforecastprovider.di.OpenMeteoForecastModule
-import dev.wiskiw.openweathermap.di.OpenWeatherMapModule
+import dev.wiskiw.fakeforecastprovider.fakeForecastModule
+import dev.wiskiw.fakeforecastprovider.namedFakeForecastRepository
+import dev.wiskiw.openmeteoforecastprovider.di.namedOpenMateoForecastRepository
+import dev.wiskiw.openmeteoforecastprovider.di.openMeteoForecastModule
+import dev.wiskiw.openweathermap.di.namedOpenWeatherMapForecastRepository
+import dev.wiskiw.openweathermap.di.openWeatherMapForecastModule
 import dev.wiskiw.shared.data.ForecastRepository
 import dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider
 import dev.wiskiw.sunnysideapp.data.service.location.FusedLocationService
 import dev.wiskiw.sunnysideapp.data.service.location.LocationService
 import dev.wiskiw.sunnysideapp.domain.usecase.CompositeTemperatureUseCase
-import javax.inject.Singleton
+import dev.wiskiw.sunnysideapp.domain.usecase.LocalTemperatureUseCase
+import dev.wiskiw.sunnysideapp.domain.usecase.LocationAddressUseCase
+import dev.wiskiw.sunnysideapp.presentation.screen.home.HomeViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object SunnySideModule {
+val sunnySideModule = module {
 
-    @Provides
-    @Singleton
-    fun providesFusedLocationService(
-        application: Application,
-    ): LocationService = FusedLocationService(application)
+    single<BuildFieldsProvider> { SunnySideAppBuildFieldsProvider() }
 
-    @Provides
-    @Singleton
-    internal fun provideBuildConfigFieldsProvider(): BuildFieldsProvider = SunnySideAppBuildFieldsProvider()
+    includes(
+        fakeForecastModule,
+        openMeteoForecastModule,
+        openWeatherMapForecastModule,
+    )
 
-    @Provides
-    @Singleton
-    internal fun provideCompositeTemperatureUseCase(
-        @OpenMeteoForecastModule.Repository openMeteoForecastRepository: ForecastRepository,
-        @OpenWeatherMapModule.Repository openWeatherMapRepository: ForecastRepository,
-        @FakeForecastModule.Repository fakeRepository: ForecastRepository,
-    ): CompositeTemperatureUseCase {
-        val forecastRepositories = listOf(
-            openMeteoForecastRepository,
-            openWeatherMapRepository,
-            fakeRepository,
+    single {
+        val forecastRepositories = listOf<ForecastRepository>(
+            get(namedFakeForecastRepository),
+            get(namedOpenMateoForecastRepository),
+            get(namedOpenWeatherMapForecastRepository),
         )
-        return CompositeTemperatureUseCase(forecastRepositories)
+        CompositeTemperatureUseCase(forecastRepositories)
     }
 
+    single<LocationService> { FusedLocationService(get()) }
+    single { LocationAddressUseCase(get()) }
+    single { LocalTemperatureUseCase(get(), get(), get()) }
+
+    viewModel { HomeViewModel(get()) }
+//    includes(viewModelModule)
+}
+
+private val viewModelModule = module {
+    viewModel { HomeViewModel(get()) }
 }

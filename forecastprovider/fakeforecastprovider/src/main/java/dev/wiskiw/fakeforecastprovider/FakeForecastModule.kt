@@ -1,22 +1,13 @@
 package dev.wiskiw.fakeforecastprovider
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import dev.wiskiw.shared.data.ForecastRepository
-import javax.inject.Qualifier
-import javax.inject.Singleton
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class FakeForecastModule {
+val namedFakeForecastRepository = named("namedFakeForecastRepository")
 
-    @Qualifier
-    annotation class Repository
-
-    @Repository
-    @Binds
-    @Singleton
-    internal abstract fun bindFakeWeatherRepository(impl: FakeForecastRepository): ForecastRepository
+val fakeForecastModule = module {
+    single<ForecastRepository>(namedFakeForecastRepository) {
+        FakeForecastRepository()
+    }
 }

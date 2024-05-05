@@ -14,9 +14,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class CompositeTemperatureUseCase @Inject constructor(
+class CompositeTemperatureUseCase(
     val forecastRepositories: List<ForecastRepository>,
 ) {
 

@@ -6,9 +6,8 @@ import dev.wiskiw.shared.model.LatLng
 import dev.wiskiw.shared.model.Response
 import dev.wiskiw.shared.utils.wrapWithResponse
 import kotlinx.coroutines.delay
-import javax.inject.Inject
 
-internal class FakeForecastRepository @Inject constructor() : ForecastRepository {
+internal class FakeForecastRepository : ForecastRepository {
 
     override suspend fun getTemperature(latLng: LatLng): Response<Float> = wrapWithResponse {
         delay(3000)
