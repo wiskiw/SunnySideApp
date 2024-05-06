@@ -40,5 +40,5 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 
-    implementation(projects.shared)
+    implementation(projects.common)
 }

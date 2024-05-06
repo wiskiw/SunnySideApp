@@ -99,7 +99,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(projects.shared)
+    implementation(projects.common)
     implementation(projects.forecastprovider.fakeforecastprovider)
     implementation(projects.forecastprovider.openmeteoforecastprovider)
     implementation(projects.forecastprovider.openweathermapprovider)
