@@ -4,6 +4,16 @@ This project serves as a sandbox for exploring various Android development conce
 ### Cover Story
 This project is built as a **Weather App** that demonstrates the use of the layered architecture while experimenting with data access and processing techniques. The app retrieves temperature data from multiple sources and calculates the average to provide a more comprehensive picture of the current conditions.
 
+### ToDo list
+- [x] Migrate to Koin DI
+- [x] Convert project into Kotlin Multiplatform (Android + iOS)
+- [ ] Share logic between platforms
+- [ ] Cover UseCases with unit tests (1/3)
+- [ ] Implement native iOS app UI
+- [ ] Implement navigation between screens for Android and iOS
+- [ ] Add preference screen to configure weather sources (for android and iOS)
+- [ ] Add offline support
+ 
 ### Project Structure
 I'm gonna try to use following hierarchy as a project structure template.
 ```
