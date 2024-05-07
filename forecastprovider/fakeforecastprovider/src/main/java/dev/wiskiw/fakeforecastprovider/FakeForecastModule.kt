@@ -4,10 +4,12 @@ import dev.wiskiw.shared.data.ForecastRepository
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val namedFakeForecastRepository = named("namedFakeForecastRepository")
+object Named {
+    val FAKE_FORECAST_REPOSITORY = named("FAKE_FORECAST_REPOSITORY")
+}
 
 val fakeForecastModule = module {
-    single<ForecastRepository>(namedFakeForecastRepository) {
+    single<ForecastRepository>(Named.FAKE_FORECAST_REPOSITORY) {
         FakeForecastRepository()
     }
 }

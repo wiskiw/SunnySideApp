@@ -1,11 +1,7 @@
 package dev.wiskiw.sunnysideapp.app
 
 import dev.wiskiw.fakeforecastprovider.fakeForecastModule
-import dev.wiskiw.fakeforecastprovider.namedFakeForecastRepository
-import dev.wiskiw.openmeteoforecastprovider.di.namedOpenMateoForecastRepository
-import dev.wiskiw.openmeteoforecastprovider.di.openMeteoForecastModule
-import dev.wiskiw.openweathermap.di.namedOpenWeatherMapForecastRepository
-import dev.wiskiw.openweathermap.di.openWeatherMapForecastModule
+import dev.wiskiw.openmeteoforecastprovider.di.realForecastModule
 import dev.wiskiw.shared.data.ForecastRepository
 import dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider
 import dev.wiskiw.sunnysideapp.data.service.location.FusedLocationService
@@ -16,6 +12,14 @@ import dev.wiskiw.sunnysideapp.domain.usecase.LocationAddressUseCase
 import dev.wiskiw.sunnysideapp.presentation.screen.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import dev.wiskiw.fakeforecastprovider.Named as FakeModuleNamed
+import dev.wiskiw.openmeteoforecastprovider.di.Named as RealModuleNamed
+
+// Should be declared above usage in includes(..)
+// bug: https://github.com/InsertKoinIO/koin/issues/1341
+private val viewModelModule = module {
+    viewModel { HomeViewModel(get()) }
+}
 
 val sunnySideModule = module {
 
@@ -23,15 +27,14 @@ val sunnySideModule = module {
 
     includes(
         fakeForecastModule,
-        openMeteoForecastModule,
-        openWeatherMapForecastModule,
+        realForecastModule,
     )
 
     single {
         val forecastRepositories = listOf<ForecastRepository>(
-            get(namedFakeForecastRepository),
-            get(namedOpenMateoForecastRepository),
-            get(namedOpenWeatherMapForecastRepository),
+            get(FakeModuleNamed.FAKE_FORECAST_REPOSITORY),
+            get(RealModuleNamed.OPEN_METEO_FORECAST_REPOSITORY),
+            get(RealModuleNamed.OPEN_WEATHER_MAP_FORECAST_REPOSITORY),
         )
         CompositeTemperatureUseCase(forecastRepositories)
     }
@@ -40,10 +43,5 @@ val sunnySideModule = module {
     single { LocationAddressUseCase(get()) }
     single { LocalTemperatureUseCase(get(), get(), get()) }
 
-    viewModel { HomeViewModel(get()) }
-//    includes(viewModelModule)
-}
-
-private val viewModelModule = module {
-    viewModel { HomeViewModel(get()) }
+    includes(viewModelModule)
 }

@@ -80,6 +80,7 @@ dependencies {
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
 
     implementation(libs.ktor.core)
@@ -100,6 +101,5 @@ dependencies {
 
     implementation(projects.common)
     implementation(projects.forecastprovider.fakeforecastprovider)
-    implementation(projects.forecastprovider.openmeteoforecastprovider)
-    implementation(projects.forecastprovider.openweathermapprovider)
+    implementation(projects.forecastprovider.realforecastprovider)
 }

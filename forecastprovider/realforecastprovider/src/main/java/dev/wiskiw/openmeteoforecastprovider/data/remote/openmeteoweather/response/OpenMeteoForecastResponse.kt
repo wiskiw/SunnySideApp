@@ -1,10 +1,10 @@
-package dev.wiskiw.openmeteoforecastprovider.data.remote.response
+package dev.wiskiw.openmeteoforecastprovider.data.remote.openmeteoweather.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OpenMeteoForecaseResponse(
+internal data class OpenMeteoForecastResponse(
     val latitude: Double,
     val longitude: Double,
     val timezone: String,

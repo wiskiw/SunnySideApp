@@ -1,9 +1,9 @@
-package dev.wiskiw.openweathermap.data.remote.response
+package dev.wiskiw.openmeteoforecastprovider.data.remote.openweathermap.response
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WeatherResponse(
+internal data class OpenWeatherMapWeatherResponse(
     val main: Main,
 ) {
     @Serializable

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.wiskiw.openweathermap"
+    namespace = "dev.wiskiw.realforecastprovider"
     compileSdk = 34
 
     defaultConfig {
@@ -18,7 +18,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
