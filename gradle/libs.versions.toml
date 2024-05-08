@@ -3,6 +3,10 @@ agp = "8.2.0"
 kotlin = "1.9.20"
 coreKtx = "1.10.1"
 
+# KMP BuildConfig alternative plugin
+# https://github.com/yshrsmz/BuildKonfig
+buildKonfig = "0.15.1"
+
 kotlinxSerialization = "1.6.3"
 kotlinxCoroutines = "1.8.0"
 
@@ -65,6 +69,7 @@ ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-nego
 
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
@@ -77,3 +82,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }

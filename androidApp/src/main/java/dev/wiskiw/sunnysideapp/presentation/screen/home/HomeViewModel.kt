@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import dev.wiskiw.sunnysideapp.domain.usecase.LocalTemperatureUseCase
+import dev.wiskiw.shared.domain.usecase.LocalTemperatureUseCase
 import dev.wiskiw.sunnysideapp.presentation.utils.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class HomeViewModel(
         viewModelScope.launch {
             localTemperatureUseCase.getLocalTemperature(this)
                 .collectLatest { localTemperature ->
-                    address = localTemperature.address?.locality?.toString()
+                    address = localTemperature.address.name ?: "unknown"
                     temperatureValue = "%.1f°C".format(localTemperature.temperature.value)
                     valueSourceCount = localTemperature.temperature.availableSources.size
                     unavailableSourceCount = localTemperature.temperature.unavailableSources.size

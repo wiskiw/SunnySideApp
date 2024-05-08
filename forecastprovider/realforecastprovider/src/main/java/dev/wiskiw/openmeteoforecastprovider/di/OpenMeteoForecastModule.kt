@@ -68,15 +68,15 @@ private val httpJsonModule = module {
 val realForecastModule = module {
     includes(httpJsonModule)
 
-    single<ForecastRepository>(Named.OPEN_METEO_FORECAST_REPOSITORY) {
+    single<dev.wiskiw.shared.data.ForecastRepository>(Named.OPEN_METEO_FORECAST_REPOSITORY) {
         val service = OpenMeteoHttpRemoteService(get())
         return@single OpenMeteoWeatherRepository(
             openMeteoService = service,
         )
     }
 
-    single<ForecastRepository>(Named.OPEN_WEATHER_MAP_FORECAST_REPOSITORY) {
-        val apiKey = get<BuildFieldsProvider>().getApiKeys().openWeatherMapApiKey
+    single<dev.wiskiw.shared.data.ForecastRepository>(Named.OPEN_WEATHER_MAP_FORECAST_REPOSITORY) {
+        val apiKey = get<dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider>().getApiKeys().openWeatherMapApiKey
         val service = OpenWeatherMapHttpRemoteService(get(), apiKey)
         return@single OpenWeatherMapRepository(
             weatherService = service,

@@ -9,7 +9,7 @@ object Named {
 }
 
 val fakeForecastModule = module {
-    single<ForecastRepository>(Named.FAKE_FORECAST_REPOSITORY) {
+    single<dev.wiskiw.shared.data.ForecastRepository>(Named.FAKE_FORECAST_REPOSITORY) {
         FakeForecastRepository()
     }
 }

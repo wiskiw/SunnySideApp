@@ -20,18 +20,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-
-        // Load the values from .properties file
-        val keystoreFile = project.rootProject.file("apikeys.properties")
-        val properties = Properties()
-        properties.load(keystoreFile.inputStream())
-
-        buildConfigField(
-            type = "String",
-            name = "OPEN_WEATHER_MAP_API_KEY",
-            value = properties.getProperty("openweathermap.apikey") ?: ""
-        )
     }
 
     buildTypes {
@@ -76,18 +64,11 @@ dependencies {
 
     implementation(libs.compose.navigation)
     implementation(libs.accompanist.permissions)
-    implementation(libs.play.services.location)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
-
-    implementation(libs.ktor.core)
-    implementation(libs.ktor.android)
-    implementation(libs.ktor.logging)
-    implementation(libs.ktor.content.negotiation)
-    implementation(libs.ktor.json.serialization)
 
     testImplementation(libs.junit)
     testImplementation(libs.google.truth)
@@ -99,7 +80,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(projects.common)
-    implementation(projects.forecastprovider.fakeforecastprovider)
-    implementation(projects.forecastprovider.realforecastprovider)
+    implementation(projects.shared)
+//    implementation(projects.forecastprovider.fakeforecastprovider)
+//    implementation(projects.forecastprovider.realforecastprovider)
 }

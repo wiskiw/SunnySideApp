@@ -46,6 +46,4 @@ dependencies {
     implementation(libs.ktor.logging)
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.json.serialization)
-
-    implementation(projects.common)
 }

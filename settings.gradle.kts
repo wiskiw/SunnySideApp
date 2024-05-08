@@ -24,6 +24,5 @@ dependencyResolutionManagement {
 rootProject.name = "SunnySideApp"
 include(":androidApp")
 include(":shared")
-include(":common")
-include(":forecastprovider:fakeforecastprovider")
-include(":forecastprovider:realforecastprovider")
+//include(":forecastprovider:fakeforecastprovider")
+//include(":forecastprovider:realforecastprovider")
