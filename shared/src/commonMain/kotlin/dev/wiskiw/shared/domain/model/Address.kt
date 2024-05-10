@@ -1,6 +1,6 @@
 package dev.wiskiw.shared.domain.model
 
-import dev.wiskiw.shared.data.model.LatLng
+import dev.wiskiw.common.data.model.LatLng
 
 data class Address(
     val latLng: LatLng,

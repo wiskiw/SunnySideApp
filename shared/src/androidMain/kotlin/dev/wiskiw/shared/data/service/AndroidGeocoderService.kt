@@ -2,7 +2,7 @@ package dev.wiskiw.shared.data.service
 
 import android.app.Application
 import android.location.Geocoder
-import dev.wiskiw.shared.data.model.LatLng
+import dev.wiskiw.common.data.model.LatLng
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.IOException
 import java.util.Locale

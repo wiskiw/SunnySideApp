@@ -1,7 +1,7 @@
-package dev.wiskiw.shared.data
+package dev.wiskiw.common
 
-import dev.wiskiw.shared.data.model.DataLayerException
-import dev.wiskiw.shared.data.model.Response
+import dev.wiskiw.common.data.model.DataLayerException
+import dev.wiskiw.common.data.model.Response
 
 suspend fun <T> wrapWithResponse(runBlock: suspend () -> T): Response<T> = try {
     val data = runBlock.invoke()
@@ -9,8 +9,7 @@ suspend fun <T> wrapWithResponse(runBlock: suspend () -> T): Response<T> = try {
 } catch (e: DataLayerException) {
     Response.Failure(e)
 } catch (e: Exception) {
-    val dataLayerException =
-        DataLayerException(DataLayerException.Type.OTHER, e)
+    val dataLayerException = DataLayerException(DataLayerException.Type.OTHER, e)
     Response.Failure(dataLayerException)
 }
 

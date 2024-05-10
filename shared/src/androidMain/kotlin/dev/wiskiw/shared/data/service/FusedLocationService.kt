@@ -6,7 +6,7 @@ import android.app.Application
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
-import dev.wiskiw.shared.data.model.LatLng
+import dev.wiskiw.common.data.model.LatLng
 import dev.wiskiw.shared.utils.toLatLng
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume

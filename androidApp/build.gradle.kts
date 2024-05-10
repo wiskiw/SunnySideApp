@@ -11,8 +11,9 @@ android {
 
     defaultConfig {
         applicationId = "dev.wiskiw.sunnysideapp"
-        minSdk = 24
-        targetSdk = 34
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -81,6 +82,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(projects.shared)
-//    implementation(projects.forecastprovider.fakeforecastprovider)
-//    implementation(projects.forecastprovider.realforecastprovider)
+    implementation(projects.common)
 }

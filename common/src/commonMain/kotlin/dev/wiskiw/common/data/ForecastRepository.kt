@@ -1,7 +1,7 @@
-package dev.wiskiw.shared.data
+package dev.wiskiw.common.data
 
-import dev.wiskiw.shared.data.model.Response
-import dev.wiskiw.shared.data.model.LatLng
+import dev.wiskiw.common.data.model.LatLng
+import dev.wiskiw.common.data.model.Response
 
 interface ForecastRepository {
 

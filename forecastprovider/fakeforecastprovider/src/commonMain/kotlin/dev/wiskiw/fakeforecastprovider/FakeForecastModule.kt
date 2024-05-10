@@ -1,6 +1,6 @@
 package dev.wiskiw.fakeforecastprovider
 
-import dev.wiskiw.shared.data.ForecastRepository
+import dev.wiskiw.common.data.ForecastRepository
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -9,7 +9,7 @@ object Named {
 }
 
 val fakeForecastModule = module {
-    single<dev.wiskiw.shared.data.ForecastRepository>(Named.FAKE_FORECAST_REPOSITORY) {
+    single<ForecastRepository>(Named.FAKE_FORECAST_REPOSITORY) {
         FakeForecastRepository()
     }
 }

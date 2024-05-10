@@ -1,7 +1,6 @@
 package dev.wiskiw.shared.data.service
 
-import dev.wiskiw.shared.data.model.LatLng
-import org.koin.core.scope.Scope
+import dev.wiskiw.common.data.model.LatLng
 
 interface LocationService {
     suspend fun getLocation(): LatLng

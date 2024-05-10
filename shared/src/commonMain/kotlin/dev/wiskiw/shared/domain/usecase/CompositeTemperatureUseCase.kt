@@ -1,9 +1,9 @@
 package dev.wiskiw.shared.domain.usecase
 
-import dev.wiskiw.shared.data.ForecastRepository
-import dev.wiskiw.shared.data.model.Response
+import dev.wiskiw.common.data.ForecastRepository
+import dev.wiskiw.common.data.model.LatLng
+import dev.wiskiw.common.data.model.Response
 import dev.wiskiw.shared.domain.model.CompositeTemperature
-import dev.wiskiw.shared.data.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.channels.Channel

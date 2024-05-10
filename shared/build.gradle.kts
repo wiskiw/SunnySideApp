@@ -34,6 +34,9 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(libs.kotlinx.coroutines.core)
+
+            implementation(projects.common)
+            implementation(projects.forecastprovider.fakeforecastprovider)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -42,6 +45,8 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.play.services.location)
             implementation(libs.koin.core)
+
+//            implementation(projects.forecastprovider.realforecastprovider)
         }
 
         iosMain.dependencies {
@@ -56,9 +61,9 @@ kotlin {
 
 android {
     namespace = "dev.wiskiw.shared"
-    compileSdk = 34
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
