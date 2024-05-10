@@ -11,6 +11,8 @@ import dev.wiskiw.shared.data.service.createFusedLocationService
 import dev.wiskiw.shared.data.service.createNativeGeocoderService
 import dev.wiskiw.shared.domain.usecase.CompositeTemperatureUseCase
 import dev.wiskiw.shared.domain.usecase.LocalTemperatureUseCase
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.koin.dsl.module
 import dev.wiskiw.fakeforecastprovider.Named as FakeModuleNamed
 import dev.wiskiw.realforecastprovider.Named as RealModuleNamed
@@ -21,6 +23,8 @@ private val platformModule = module {
 }
 
 private val commonModule = module {
+    Napier.base(DebugAntilog())
+
     single<BuildFieldsProvider> { SunnySideAppBuildFieldsProvider() }
 
     includes(

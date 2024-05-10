@@ -33,6 +33,9 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
 
+            // Logging
+            implementation(libs.napier)
+
             // Networking
             implementation(libs.ktor.core)
             implementation(libs.ktor.client.logging)

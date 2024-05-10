@@ -32,8 +32,13 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
 
+            // Kotlin
             implementation(libs.kotlinx.coroutines.core)
 
+            // Logging
+            implementation(libs.napier)
+
+            // Project
             implementation(projects.common)
             implementation(projects.forecastprovider.fakeforecastprovider)
             implementation(projects.forecastprovider.realforecastprovider)

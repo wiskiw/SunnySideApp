@@ -4,6 +4,7 @@ import dev.wiskiw.common.data.ForecastRepository
 import dev.wiskiw.common.data.model.LatLng
 import dev.wiskiw.common.data.model.Response
 import dev.wiskiw.shared.domain.model.CompositeTemperature
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.channels.Channel
@@ -72,8 +73,7 @@ class CompositeTemperatureUseCase(
 
             is Response.Failure -> {
                 // todo fix sourceName
-                // todo fix logger
-//                Log.w(LOG_TAG, "Failed to fetch temperature", temperatureResponse.error)
+                Napier.e("Failed to fetch temperature", temperatureResponse.error)
                 return TemperatureData(
                     value = Float.NaN,
                     sourceName = "unknown",

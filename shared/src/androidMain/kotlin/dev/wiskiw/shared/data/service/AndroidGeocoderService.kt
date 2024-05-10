@@ -3,6 +3,7 @@ package dev.wiskiw.shared.data.service
 import android.app.Application
 import android.location.Geocoder
 import dev.wiskiw.common.data.model.LatLng
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.IOException
 import java.util.Locale
@@ -24,8 +25,7 @@ class AndroidGeocoderService(
                 val resultAddress = geocoderAddresses.firstOrNull()?.locality
                 continuation.resume(resultAddress)
             } catch (e: IOException) {
-                // todo fix logs
-//                Log.e(LOG_TAG, "Exception during fetching city name", e)
+                Napier.v("Exception during fetching location name", e)
                 continuation.resume(null)
             }
         }
