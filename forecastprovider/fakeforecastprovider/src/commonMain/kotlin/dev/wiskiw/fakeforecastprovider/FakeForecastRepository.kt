@@ -4,7 +4,7 @@ import dev.wiskiw.common.data.ForecastRepository
 import dev.wiskiw.common.data.model.DataLayerException
 import dev.wiskiw.common.data.model.LatLng
 import dev.wiskiw.common.data.model.Response
-import dev.wiskiw.common.wrapWithResponse
+import dev.wiskiw.common.data.wrapWithResponse
 import kotlinx.coroutines.delay
 
 internal class FakeForecastRepository : ForecastRepository {

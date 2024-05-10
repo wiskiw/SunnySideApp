@@ -1,10 +1,9 @@
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
-import java.util.Properties
+//import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+//import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.buildKonfig)
 }
 
 kotlin {
@@ -37,6 +36,7 @@ kotlin {
 
             implementation(projects.common)
             implementation(projects.forecastprovider.fakeforecastprovider)
+            implementation(projects.forecastprovider.realforecastprovider)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -45,8 +45,6 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.play.services.location)
             implementation(libs.koin.core)
-
-//            implementation(projects.forecastprovider.realforecastprovider)
         }
 
         iosMain.dependencies {
@@ -68,21 +66,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
-
-buildkonfig {
-    packageName = "dev.wiskiw.shared"
-
-    defaultConfigs {
-        val keystoreFile = project.rootProject.file("apikeys.properties")
-        val properties = Properties()
-        properties.load(keystoreFile.inputStream())
-
-        buildConfigField(
-            type = STRING,
-            name = "OPEN_WEATHER_MAP_API_KEY",
-            value = properties.getProperty("openweathermap.apikey") ?: ""
-        )
     }
 }

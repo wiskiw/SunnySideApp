@@ -1,4 +1,4 @@
-package dev.wiskiw.common
+package dev.wiskiw.common.data
 
 import dev.wiskiw.common.data.model.DataLayerException
 import dev.wiskiw.common.data.model.Response

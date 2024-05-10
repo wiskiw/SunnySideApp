@@ -1,21 +1,19 @@
 package dev.wiskiw.shared.di
 
 import dev.wiskiw.common.data.ForecastRepository
-import dev.wiskiw.common.data.model.LatLng
-import dev.wiskiw.common.data.model.Response
+import dev.wiskiw.common.utils.buildfields.BuildFieldsProvider
+import dev.wiskiw.common.utils.buildfields.SunnySideAppBuildFieldsProvider
+import dev.wiskiw.fakeforecastprovider.fakeForecastModule
+import dev.wiskiw.realforecastprovider.realForecastModule
 import dev.wiskiw.shared.data.service.GeocoderService
 import dev.wiskiw.shared.data.service.LocationService
 import dev.wiskiw.shared.data.service.createFusedLocationService
 import dev.wiskiw.shared.data.service.createNativeGeocoderService
-import dev.wiskiw.common.wrapWithResponse
-import dev.wiskiw.fakeforecastprovider.Named as FakeModuleNamed
-import dev.wiskiw.fakeforecastprovider.fakeForecastModule
 import dev.wiskiw.shared.domain.usecase.CompositeTemperatureUseCase
 import dev.wiskiw.shared.domain.usecase.LocalTemperatureUseCase
-import dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider
-import dev.wiskiw.shared.utils.buildfields.SunnySideAppBuildFieldsProvider
-import kotlinx.coroutines.delay
 import org.koin.dsl.module
+import dev.wiskiw.fakeforecastprovider.Named as FakeModuleNamed
+import dev.wiskiw.realforecastprovider.Named as RealModuleNamed
 
 private val platformModule = module {
     single<LocationService> { createFusedLocationService() }
@@ -27,15 +25,14 @@ private val commonModule = module {
 
     includes(
         fakeForecastModule,
-//        realForecastModule,
+        realForecastModule,
     )
 
     single {
         val forecastRepositories = listOf<ForecastRepository>(
             get(FakeModuleNamed.FAKE_FORECAST_REPOSITORY),
-//            get(RealModuleNamed.OPEN_METEO_FORECAST_REPOSITORY),
-//            get(RealModuleNamed.OPEN_WEATHER_MAP_FORECAST_REPOSITORY),
-
+            get(RealModuleNamed.OPEN_METEO_FORECAST_REPOSITORY),
+            get(RealModuleNamed.OPEN_WEATHER_MAP_FORECAST_REPOSITORY),
         )
         CompositeTemperatureUseCase(forecastRepositories)
     }
@@ -47,8 +44,6 @@ private val commonModule = module {
             temperatureUseCase = get(),
         )
     }
-
-//    includes(viewModelModule)
 }
 
 val appModules = listOf(platformModule, commonModule)

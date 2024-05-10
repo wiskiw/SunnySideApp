@@ -1,4 +1,4 @@
-package dev.wiskiw.openmeteoforecastprovider.data.remote.openweathermap.response
+package dev.wiskiw.realforecastprovider.data.remote.openweathermap.response
 
 import kotlinx.serialization.Serializable
 

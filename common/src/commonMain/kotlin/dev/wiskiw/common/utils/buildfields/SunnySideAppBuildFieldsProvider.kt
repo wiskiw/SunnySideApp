@@ -1,6 +1,6 @@
-package dev.wiskiw.shared.utils.buildfields
+package dev.wiskiw.common.utils.buildfields
 
-import dev.wiskiw.shared.BuildKonfig
+import dev.wiskiw.common.BuildKonfig
 
 class SunnySideAppBuildFieldsProvider : BuildFieldsProvider {
 

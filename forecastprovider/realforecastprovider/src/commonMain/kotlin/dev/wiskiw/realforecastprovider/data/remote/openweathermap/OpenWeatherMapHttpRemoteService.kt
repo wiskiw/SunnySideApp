@@ -1,7 +1,7 @@
-package dev.wiskiw.openmeteoforecastprovider.data.remote.openweathermap
+package dev.wiskiw.realforecastprovider.data.remote.openweathermap
 
-import dev.wiskiw.openmeteoforecastprovider.data.remote.openweathermap.response.OpenWeatherMapWeatherResponse
-import dev.wiskiw.shared.domain.model.LatLng
+import dev.wiskiw.common.data.model.LatLng
+import dev.wiskiw.realforecastprovider.data.remote.openweathermap.response.OpenWeatherMapWeatherResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
@@ -25,7 +25,7 @@ internal class OpenWeatherMapHttpRemoteService(
         parameter("appid", apiKey)
     }
 
-    override suspend fun getWeather(latLng: dev.wiskiw.shared.domain.model.LatLng): OpenWeatherMapWeatherResponse = httpClient
+    override suspend fun getWeather(latLng: LatLng): OpenWeatherMapWeatherResponse = httpClient
         .get {
             commonRequest()
             url {

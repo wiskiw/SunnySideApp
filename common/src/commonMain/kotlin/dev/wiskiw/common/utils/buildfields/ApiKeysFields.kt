@@ -1,4 +1,4 @@
-package dev.wiskiw.shared.utils.buildfields
+package dev.wiskiw.common.utils.buildfields
 
 data class ApiKeysFields(
     val openWeatherMapApiKey : String,

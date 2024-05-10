@@ -1,14 +1,12 @@
-package dev.wiskiw.openmeteoforecastprovider.di
+package dev.wiskiw.realforecastprovider
 
-import android.util.Log
-import dev.wiskiw.openmeteoforecastprovider.data.OpenMeteoWeatherRepository
-import dev.wiskiw.openmeteoforecastprovider.data.OpenWeatherMapRepository
-import dev.wiskiw.openmeteoforecastprovider.data.remote.openmeteoweather.OpenMeteoHttpRemoteService
-import dev.wiskiw.openmeteoforecastprovider.data.remote.openweathermap.OpenWeatherMapHttpRemoteService
-import dev.wiskiw.shared.data.ForecastRepository
-import dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider
+import dev.wiskiw.common.data.ForecastRepository
+import dev.wiskiw.common.utils.buildfields.BuildFieldsProvider
+import dev.wiskiw.realforecastprovider.data.OpenMeteoWeatherRepository
+import dev.wiskiw.realforecastprovider.data.OpenWeatherMapRepository
+import dev.wiskiw.realforecastprovider.data.remote.openmeteoweather.OpenMeteoHttpRemoteService
+import dev.wiskiw.realforecastprovider.data.remote.openweathermap.OpenWeatherMapHttpRemoteService
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -19,7 +17,6 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import java.util.concurrent.TimeUnit
 
 object Named {
     val OPEN_METEO_FORECAST_REPOSITORY = named("OPEN_METEO_FORECAST_REPOSITORY")
@@ -28,16 +25,9 @@ object Named {
 
 private val httpJsonModule = module {
     single {
-        HttpClient(Android) {
-            val ktorLogTag = "KtorJsonHttp"
-            val timeout = TimeUnit.SECONDS.toMillis(60).toInt()
+        HttpClient {
 
             install(ContentNegotiation) {
-                engine {
-                    connectTimeout = timeout
-                    socketTimeout = timeout
-                }
-
                 json(
                     Json {
                         prettyPrint = true
@@ -51,7 +41,8 @@ private val httpJsonModule = module {
                 level = LogLevel.ALL
                 logger = object : Logger {
                     override fun log(message: String) {
-                        Log.d(ktorLogTag, message)
+                        // todo update logs
+                        println(message)
                     }
                 }
             }
@@ -68,15 +59,15 @@ private val httpJsonModule = module {
 val realForecastModule = module {
     includes(httpJsonModule)
 
-    single<dev.wiskiw.shared.data.ForecastRepository>(Named.OPEN_METEO_FORECAST_REPOSITORY) {
+    single<ForecastRepository>(Named.OPEN_METEO_FORECAST_REPOSITORY) {
         val service = OpenMeteoHttpRemoteService(get())
         return@single OpenMeteoWeatherRepository(
             openMeteoService = service,
         )
     }
 
-    single<dev.wiskiw.shared.data.ForecastRepository>(Named.OPEN_WEATHER_MAP_FORECAST_REPOSITORY) {
-        val apiKey = get<dev.wiskiw.shared.utils.buildfields.BuildFieldsProvider>().getApiKeys().openWeatherMapApiKey
+    single<ForecastRepository>(Named.OPEN_WEATHER_MAP_FORECAST_REPOSITORY) {
+        val apiKey = get<BuildFieldsProvider>().getApiKeys().openWeatherMapApiKey
         val service = OpenWeatherMapHttpRemoteService(get(), apiKey)
         return@single OpenWeatherMapRepository(
             weatherService = service,

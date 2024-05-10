@@ -1,4 +1,4 @@
-package dev.wiskiw.shared.utils.buildfields
+package dev.wiskiw.common.utils.buildfields
 
 interface BuildFieldsProvider {
 
