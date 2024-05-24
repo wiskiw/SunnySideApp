@@ -11,7 +11,6 @@ internal class OpenMeteoWeatherRepository(
 ) : ForecastRepository {
     override suspend fun getTemperature(latLng: LatLng): Response<Float> = wrapWithResponse {
         val forecastResponse = openMeteoService.getForecast(latLng)
-        val temperature = forecastResponse.hourly.temperatures.firstOrNull()
-        return@wrapWithResponse temperature ?: throw IllegalArgumentException("Null temperature")
+        return@wrapWithResponse forecastResponse.currentWeather.temperature
     }
 }

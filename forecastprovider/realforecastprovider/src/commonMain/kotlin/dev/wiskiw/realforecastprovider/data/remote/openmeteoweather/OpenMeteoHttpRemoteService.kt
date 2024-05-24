@@ -32,8 +32,7 @@ internal class OpenMeteoHttpRemoteService(
 
             parameter("latitude", latLng.latitude)
             parameter("longitude", latLng.longitude)
-            parameter("hourly", "temperature_2m")
-            parameter("forecast_days", 1)
+            parameter("current_weather", true)
         }
         .body()
 }

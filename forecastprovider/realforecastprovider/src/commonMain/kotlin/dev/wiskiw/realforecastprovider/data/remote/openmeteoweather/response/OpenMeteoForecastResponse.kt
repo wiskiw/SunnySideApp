@@ -8,12 +8,14 @@ internal data class OpenMeteoForecastResponse(
     val latitude: Double,
     val longitude: Double,
     val timezone: String,
-    val hourly: HourlyDto,
+
+    @SerialName("current_weather")
+    val currentWeather: CurrentWeather,
 ) {
 
     @Serializable
-    data class HourlyDto(
-        @SerialName("temperature_2m")
-        val temperatures: List<Float>,
+    data class CurrentWeather(
+        @SerialName("temperature")
+        val temperature: Float,
     )
 }
