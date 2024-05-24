@@ -54,5 +54,11 @@ I'm gonna try to use following hierarchy as a project structure template.
 Before building the project, obtain your API keys and save it in the `apikeys.properties` file using the following template.
 ```properties  
 # https://home.openweathermap.org/api_keys  
-openweathermap.apikey=YOUR_OpenWeatherMap_API_KEY_HERE
+openweathermap.apikey=API_KEY_HERE
+
+# https://www.weatherbit.io/account/dashboard
+weatherbit.apikey=API_KEY_HERE
+
+# https://www.meteosource.com/client
+meteosource.apikey=API_KEY_HERE
 ```
