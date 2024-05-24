@@ -37,6 +37,7 @@ private val commonModule = module {
             get(FakeModuleNamed.FAKE_FORECAST_REPOSITORY),
             get(RealModuleNamed.OPEN_METEO_FORECAST_REPOSITORY),
             get(RealModuleNamed.OPEN_WEATHER_MAP_FORECAST_REPOSITORY),
+            get(RealModuleNamed.WEATHER_BIT_FORECAST_REPOSITORY),
         )
         CompositeTemperatureUseCase(forecastRepositories)
     }

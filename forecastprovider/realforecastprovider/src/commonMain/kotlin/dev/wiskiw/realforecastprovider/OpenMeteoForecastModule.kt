@@ -4,9 +4,10 @@ import dev.wiskiw.common.data.ForecastRepository
 import dev.wiskiw.common.utils.buildfields.BuildFieldsProvider
 import dev.wiskiw.realforecastprovider.data.OpenMeteoWeatherRepository
 import dev.wiskiw.realforecastprovider.data.OpenWeatherMapRepository
+import dev.wiskiw.realforecastprovider.data.WeatherBitRepository
 import dev.wiskiw.realforecastprovider.data.remote.openmeteoweather.OpenMeteoHttpRemoteService
 import dev.wiskiw.realforecastprovider.data.remote.openweathermap.OpenWeatherMapHttpRemoteService
-import io.github.aakira.napier.DebugAntilog
+import dev.wiskiw.realforecastprovider.data.remote.weatherbit.WeatherBitHttpRemoteService
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
@@ -23,6 +24,7 @@ import org.koin.dsl.module
 object Named {
     val OPEN_METEO_FORECAST_REPOSITORY = named("OPEN_METEO_FORECAST_REPOSITORY")
     val OPEN_WEATHER_MAP_FORECAST_REPOSITORY = named("OPEN_WEATHER_MAP_FORECAST_REPOSITORY")
+    val WEATHER_BIT_FORECAST_REPOSITORY = named("WEATHER_BIT_FORECAST_REPOSITORY")
 }
 
 private val httpJsonModule = module {
@@ -74,5 +76,12 @@ val realForecastModule = module {
             weatherService = service,
         )
     }
-}
 
+    single<ForecastRepository>(Named.WEATHER_BIT_FORECAST_REPOSITORY) {
+        val apiKey = get<BuildFieldsProvider>().getApiKeys().weatherBitApiKey
+        val service = WeatherBitHttpRemoteService(get(), apiKey)
+        return@single WeatherBitRepository(
+            weatherService = service,
+        )
+    }
+}

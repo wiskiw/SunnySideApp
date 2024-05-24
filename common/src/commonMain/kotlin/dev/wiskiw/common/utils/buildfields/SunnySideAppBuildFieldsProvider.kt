@@ -14,5 +14,6 @@ class SunnySideAppBuildFieldsProvider : BuildFieldsProvider {
 
     override fun getApiKeys() = ApiKeysFields(
         openWeatherMapApiKey = BuildKonfig.OPEN_WEATHER_MAP_API_KEY,
+        weatherBitApiKey = BuildKonfig.OPEN_WEATHER_MAP_API_KEY,
     )
 }
