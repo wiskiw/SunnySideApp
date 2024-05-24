@@ -1,6 +1,6 @@
 package dev.wiskiw.shared.data.service
 
-import dev.wiskiw.shared.data.model.LatLng
+import dev.wiskiw.common.data.model.LatLng
 
 class AppleGeocoderService : GeocoderService {
     // todo implement GeocoderService for iOS

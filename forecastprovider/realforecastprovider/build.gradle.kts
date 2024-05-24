@@ -56,6 +56,10 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
     }
+
+    // Workaround for "Cannot locate tasks that match ':shared:testClasses' as task 'testClasses' not found in project ':shared'."
+    // https://stackoverflow.com/a/78159011
+    task("testClasses")
 }
 
 android {

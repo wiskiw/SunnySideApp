@@ -35,6 +35,10 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+
+    // Workaround for "Cannot locate tasks that match ':shared:testClasses' as task 'testClasses' not found in project ':shared'."
+    // https://stackoverflow.com/a/78159011
+    task("testClasses")
 }
 
 android {
@@ -61,6 +65,18 @@ buildkonfig {
             type = STRING,
             name = "OPEN_WEATHER_MAP_API_KEY",
             value = properties.getProperty("openweathermap.apikey") ?: ""
+        )
+
+        buildConfigField(
+            type = STRING,
+            name = "WEATHER_BIT_API_KEY",
+            value = properties.getProperty("weatherbit.apikey") ?: ""
+        )
+
+        buildConfigField(
+            type = STRING,
+            name = "METEO_SOURCE_API_KEY",
+            value = properties.getProperty("meteosource.apikey") ?: ""
         )
     }
 }

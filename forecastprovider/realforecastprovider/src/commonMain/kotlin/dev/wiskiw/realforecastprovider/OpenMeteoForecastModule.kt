@@ -2,9 +2,11 @@ package dev.wiskiw.realforecastprovider
 
 import dev.wiskiw.common.data.ForecastRepository
 import dev.wiskiw.common.utils.buildfields.BuildFieldsProvider
+import dev.wiskiw.realforecastprovider.data.MeteoSourceRepository
 import dev.wiskiw.realforecastprovider.data.OpenMeteoWeatherRepository
 import dev.wiskiw.realforecastprovider.data.OpenWeatherMapRepository
 import dev.wiskiw.realforecastprovider.data.WeatherBitRepository
+import dev.wiskiw.realforecastprovider.data.remote.meteosource.MeteoSourceHttpRemoteService
 import dev.wiskiw.realforecastprovider.data.remote.openmeteoweather.OpenMeteoHttpRemoteService
 import dev.wiskiw.realforecastprovider.data.remote.openweathermap.OpenWeatherMapHttpRemoteService
 import dev.wiskiw.realforecastprovider.data.remote.weatherbit.WeatherBitHttpRemoteService
@@ -25,6 +27,7 @@ object Named {
     val OPEN_METEO_FORECAST_REPOSITORY = named("OPEN_METEO_FORECAST_REPOSITORY")
     val OPEN_WEATHER_MAP_FORECAST_REPOSITORY = named("OPEN_WEATHER_MAP_FORECAST_REPOSITORY")
     val WEATHER_BIT_FORECAST_REPOSITORY = named("WEATHER_BIT_FORECAST_REPOSITORY")
+    val METEO_SOURCE_FORECAST_REPOSITORY = named("METEO_SOURCE_FORECAST_REPOSITORY")
 }
 
 private val httpJsonModule = module {
@@ -81,6 +84,14 @@ val realForecastModule = module {
         val apiKey = get<BuildFieldsProvider>().getApiKeys().weatherBitApiKey
         val service = WeatherBitHttpRemoteService(get(), apiKey)
         return@single WeatherBitRepository(
+            weatherService = service,
+        )
+    }
+
+    single<ForecastRepository>(Named.METEO_SOURCE_FORECAST_REPOSITORY) {
+        val apiKey = get<BuildFieldsProvider>().getApiKeys().meteoSourceApiKey
+        val service = MeteoSourceHttpRemoteService(get(), apiKey)
+        return@single MeteoSourceRepository(
             weatherService = service,
         )
     }
