@@ -1,4 +1,4 @@
-package dev.wiskiw.sunnysideapp.ui.theme
+package dev.wiskiw.sunnysideapp.presentation.theme
 
 import android.app.Activity
 import android.os.Build

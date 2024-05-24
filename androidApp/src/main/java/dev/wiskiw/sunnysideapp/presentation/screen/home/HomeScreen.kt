@@ -22,7 +22,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import dev.wiskiw.sunnysideapp.ui.theme.SunnySideAppTheme
+import dev.wiskiw.sunnysideapp.presentation.theme.SunnySideAppTheme
 import org.koin.androidx.compose.koinViewModel
 
 

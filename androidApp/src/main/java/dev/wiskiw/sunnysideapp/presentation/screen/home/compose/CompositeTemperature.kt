@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.wiskiw.sunnysideapp.ui.theme.size
+import dev.wiskiw.sunnysideapp.presentation.theme.size
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -212,4 +212,3 @@ private fun CompositeTemperaturePreview() {
         )
     )
 }
-

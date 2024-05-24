@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dev.wiskiw.sunnysideapp.presentation.navigation.LaunchNavGraph
 import dev.wiskiw.sunnysideapp.presentation.navigation.Route
-import dev.wiskiw.sunnysideapp.ui.theme.SunnySideAppTheme
+import dev.wiskiw.sunnysideapp.presentation.theme.SunnySideAppTheme
 
 class SunnySideActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
